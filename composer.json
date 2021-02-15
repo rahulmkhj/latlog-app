@@ -1,0 +1,26 @@
+{
+    "name": "latlog/app",
+    "description": "The is a subset of the Latency Logger project, use latlog/latlog to install",
+    "keywords": ["latency", "icmp", "graph", "ping"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/lumen-framework": "^8.0",
+        "react/child-process": "^0.6.1",
+        "react/event-loop": "^1.1",
+        "react/socket": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Latlog\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
