@@ -4,6 +4,7 @@
 namespace Latlog\Library;
 
 
+use Latlog\Core\Debugger\Debug;
 use Latlog\Events\PingRunEvent;
 use Latlog\Models\Target;
 use React\ChildProcess\Process;
@@ -28,7 +29,8 @@ class Ping
     public function runOnce(): Ping
     {
         $time = date('h:i:s');
-        echo "running: {$this->target->buildCommand()} - {$time} with ID: {$this->target->id} \n";
+        Debug::info("running: {$this->target->buildCommand()} at {$time} for Target ID: {$this->target->id}");
+
         $process = new Process("exec {$this->target->buildCommand()}");
         $process->start(app('loop'));
         event(new PingRunEvent($process, $this->target));
@@ -37,11 +39,12 @@ class Ping
 
     public function schedule(): TimerInterface
     {
+        Debug::info("Scheduling {$this->target->host} to be probed every {$this->target->frequency} seconds");
+
         $that = $this;
         return app('loop')->addPeriodicTimer( $this->target->frequency, function() use ($that){
                     $that->runOnce();
                 });
-//        Scheduler::attach( $this->target, $timer );
     }
 
 

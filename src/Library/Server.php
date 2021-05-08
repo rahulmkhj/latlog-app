@@ -4,6 +4,7 @@
 namespace Latlog\Library;
 
 
+use Latlog\Core\Debugger\Debug;
 use Latlog\Events\TargetUpdateEvent;
 use Latlog\Models\Target;
 use React\Socket\ConnectionInterface;
@@ -53,10 +54,11 @@ class Server
                                 $socketPath,
                                 app('loop')
                             );
-//        echo "Listening On: unix://" . $socketPath . "\n";
+        Debug::info("Listening On: unix://" . $socketPath . "\n");
 
         $server->on('connection', function( ConnectionInterface $c ){
             $c->on('data', function ( $targetId ){
+                Debug::info("Received New Target Update with ID: {$targetId}");
                 event( new TargetUpdateEvent( intval($targetId) ) );
             });
         });
