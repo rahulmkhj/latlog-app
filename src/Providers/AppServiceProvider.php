@@ -2,8 +2,11 @@
 
 namespace Latlog\Providers;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\ServiceProvider;
 use React\EventLoop\Factory;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\StreamOutput;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('loop', function(){
             return Factory::create();
+        });
+
+        $this->app->singleton('console.output', function(){
+            return new OutputStyle(
+                new StringInput(''),
+                new StreamOutput(fopen('php://stdout', 'w'))
+            );
         });
     }
 }
